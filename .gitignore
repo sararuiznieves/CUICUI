@@ -1,0 +1,24 @@
+# Angular
+node_modules/
+dist/
+.angular/
+
+# IntelliJ
+.idea/
+*.iml
+
+# Spring
+target/
+
+# Logs
+*.log
+
+# VSCode
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Configuración sensible
+application-local.properties
