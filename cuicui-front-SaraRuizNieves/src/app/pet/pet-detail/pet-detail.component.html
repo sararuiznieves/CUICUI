@@ -1,0 +1,284 @@
+<section class="home">
+  <div class="pet-detail-shell">
+
+    <div class="pet-detail-card" *ngIf="!isLoading && mascota; else loadingState">
+      <div class="pet-detail-header">
+        <div>
+          <h1>{{ mascota.petName }}</h1>
+          <div class="pet-status" *ngIf="isDeceased()">Fallecida</div>
+        </div>
+      </div>
+
+      <div class="messages">
+        <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+
+      <div class="pet-detail-main">
+        <div class="pet-detail-form">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <label for="petName">Nombre</label>
+              <input
+                id="petName"
+                type="text"
+                [(ngModel)]="mascota.petName"
+                name="petName"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="breed">Raza</label>
+              <input
+                id="breed"
+                type="text"
+                [(ngModel)]="mascota.breed"
+                name="breed"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="gender">Género</label>
+              <select
+                id="gender"
+                [(ngModel)]="mascota.gender"
+                name="gender"
+              >
+                <option value="">Selecciona</option>
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+              </select>
+            </div>
+
+            <div class="detail-block">
+              <label for="dateBirth">Fecha de nacimiento</label>
+              <input
+                id="dateBirth"
+                type="date"
+                [(ngModel)]="mascota.dateBirth"
+                name="dateBirth"
+              />
+            </div>
+
+
+
+              <div class="detail-block">
+                <label>Edad</label>
+                <div class="detail-readonly">
+                  {{ getAge() }}
+                </div>
+              </div>
+
+              <div class="detail-block">
+              <label for="dateAdoption">Fecha de adopción</label>
+              <input
+                id="dateAdoption"
+                type="date"
+                [(ngModel)]="mascota.dateAdoption"
+                name="dateAdoption"
+              />
+            </div>
+
+<div class="detail-block">
+  <label>Propietario/a</label>
+  <div class="detail-readonly">
+    {{ mascota.ownerName || '—' }}
+  </div>
+</div>
+
+<div class="detail-block" *ngIf="mascota.updatedAt">
+  <label>Última actualización</label>
+  <div class="detail-readonly">
+    {{ formatDateTime(mascota.updatedAt) }}
+  </div>
+</div>
+
+<div class="detail-block" *ngIf="mascota.dateDisable">
+  <label>Fecha de deceso</label>
+  <div class="detail-readonly">
+    {{ formatDate(mascota.dateDisable) }}
+  </div>
+</div>
+          </div>
+        </div>
+
+        <aside class="pet-detail-side">
+          <div class="pet-image-card" [class.deceased]="isDeceased()">
+            <img [src]="getPetImage()" [alt]="mascota.petName" class="pet-image" />
+          </div>
+
+          <div class="detail-block">
+            <label for="photo">Cambiar foto</label>
+            <label class="file-upload">
+              <input
+                id="photo"
+                type="file"
+                accept="image/*"
+                (change)="onImageSelect($event)"
+                hidden
+              />
+              <span class="upload-icon">📷</span>
+              <span>{{ selectedImageName || 'Subir nueva imagen' }}</span>
+            </label>
+
+            <div class="detail-block" *ngIf="mascota?.photo || selectedImageBase64">
+            <button
+              type="button"
+              class="btn btn-remove-photo"
+              (click)="removePhoto()"
+              [disabled]="isSaving"
+            >
+              Eliminar foto
+            </button>
+          </div>
+          </div>
+
+        </aside>
+      </div>
+
+      <div class="pet-health-section" *ngIf="!isDeceased()">
+
+  <div class="pet-health-card">
+    <h3>Próximas visitas</h3>
+
+    <div
+      class="health-list"
+      *ngIf="futureVisits.length > 0; else noFutureVisits"
+    >
+      <article
+        class="health-item"
+        *ngFor="let visit of futureVisits"
+      >
+        <strong>
+          {{ visit.vetName || 'Visita veterinaria' }}
+        </strong>
+
+        <span>
+          {{ formatDate(visit.date) }} · {{ visit.time }}
+        </span>
+      </article>
+    </div>
+
+    <ng-template #noFutureVisits>
+      <p class="empty-health">
+        No hay visitas pendientes.
+      </p>
+    </ng-template>
+  </div>
+
+  <div class="pet-health-card">
+    <h3>Medicaciones activas</h3>
+
+    <div
+      class="health-list"
+      *ngIf="activeMedicines.length > 0; else noActiveMeds"
+    >
+      <article
+        class="health-item"
+        *ngFor="let med of activeMedicines"
+      >
+        <strong>
+          {{ med.name }}
+        </strong>
+
+        <span>
+          {{ med.dose }} · {{ med.frequency }}
+        </span>
+      </article>
+    </div>
+
+    <ng-template #noActiveMeds>
+      <p class="empty-health">
+        No hay medicaciones activas.
+      </p>
+    </ng-template>
+  </div>
+
+  <div class="pet-health-card">
+  <h3>Pruebas registradas</h3>
+
+  <div
+    class="health-list"
+    *ngIf="registeredTests.length > 0; else noRegisteredTests"
+  >
+    <article
+      class="health-item"
+      *ngFor="let test of registeredTests"
+    >
+      <strong>
+        {{ test.name }}
+      </strong>
+
+      <span>
+        {{ test.type || 'Sin tipo' }} ·
+        {{ test.testDate ? formatDate(test.testDate) : 'Sin fecha definida' }}
+      </span>
+    </article>
+  </div>
+
+  <ng-template #noRegisteredTests>
+    <p class="empty-health">
+      No hay pruebas registradas.
+    </p>
+  </ng-template>
+</div>
+
+</div>
+
+      <div class="pet-actions">
+<button
+  type="button"
+  class="back-btn"
+  (click)="goBack()"
+  aria-label="Volver"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path
+      d="M15 18L9 12L15 6"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+  <span>Volver</span>
+</button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updatePet()"
+          [disabled]="isSaving"
+        >
+          {{ isSaving ? 'Guardando...' : 'Actualizar datos' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="markPetAsDeceased()"
+          [disabled]="isSaving || isDeceased()"
+        >
+          Marcar como fallecida
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deletePet()"
+          [disabled]="isSaving"
+        >
+          Eliminar mascota
+        </button>
+      </div>
+    </div>
+
+    <ng-template #loadingState>
+      <div class="pet-loading-card">
+        <p *ngIf="isLoading">Cargando mascota...</p>
+        <p *ngIf="!isLoading && errorMessage">{{ errorMessage }}</p>
+      </div>
+    </ng-template>
+
+  </div>
+</section>

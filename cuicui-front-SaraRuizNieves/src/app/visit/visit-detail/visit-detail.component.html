@@ -1,0 +1,140 @@
+<section class="home">
+  <div class="visit-detail-shell">
+
+    <div class="visit-detail-card" *ngIf="!isLoading && visit; else loadingTpl">
+<div class="visit-detail-header">
+  <div class="visit-detail-title-row">
+    <span class="visit-detail-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M8 3h6l5 5v11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"></path>
+        <path d="M14 3v5h5"></path>
+        <line x1="9" y1="12" x2="15" y2="12"></line>
+        <line x1="9" y1="16" x2="15" y2="16"></line>
+        <circle cx="8.5" cy="12" r="0.7" fill="currentColor" stroke="none"></circle>
+        <circle cx="8.5" cy="16" r="0.7" fill="currentColor" stroke="none"></circle>
+      </svg>
+    </span>
+
+    <h2>Datos de la visita</h2>
+  </div>
+</div>
+
+      <div class="messages">
+        <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+
+      <div class="visit-detail-main">
+        <div class="visit-detail-form">
+          <div class="detail-grid">
+            <div class="detail-block">
+              <label for="petId">Cobaya</label>
+              <select id="petId" [(ngModel)]="visit.petId" name="petId">
+                <option *ngFor="let pet of pets" [value]="pet.id">
+                  {{ pet.petName }}
+                </option>
+              </select>
+            </div>
+
+            <div class="detail-block">
+              <label for="vetName">Clínica veterinaria:</label>
+              <input
+                id="vetName"
+                type="text"
+                [(ngModel)]="visit.vetName"
+                name="vetName"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="date">Fecha</label>
+              <input
+                id="date"
+                type="date"
+                [(ngModel)]="visit.date"
+                name="date"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="time">Hora</label>
+              <input
+                id="time"
+                type="time"
+                [(ngModel)]="visit.time"
+                name="time"
+              />
+            </div>
+
+            <div class="detail-block detail-block-full">
+              <label for="notes">Notas</label>
+              <textarea
+                id="notes"
+                rows="5"
+                [(ngModel)]="visit.notes"
+                name="notes"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <aside class="visit-detail-side">
+          <div class="visit-image-card">
+            <img [src]="getPetImage()" [alt]="visit.petName" class="visit-pet-image" />
+          </div>
+
+          <div class="visit-pet-summary">
+            <h3>{{ visit.petName }}</h3>
+            <p>{{ getVisitDateLabel(visit.date) }}</p>
+            <p>{{ visit.time }}</p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="visit-actions">
+                <button
+          type="button"
+          class="back-btn"
+          (click)="goBack()"
+          aria-label="Volver"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path
+              d="M15 18L9 12L15 6"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <span>Volver</span>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updateVisit()"
+          [disabled]="isSaving"
+        >
+          {{ isSaving ? 'Guardando...' : 'Actualizar visita' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="finishVisit()"
+        >
+            {{ visit.finished ? 'Mostrar visita' : 'Ocultar visita' }}
+        </button>
+      </div>
+    </div>
+
+    <ng-template #loadingTpl>
+      <div class="visit-loading-card">
+        <p *ngIf="isLoading">Cargando visita...</p>
+        <p *ngIf="!isLoading && errorMessage">{{ errorMessage }}</p>
+      </div>
+    </ng-template>
+
+  </div>
+</section>

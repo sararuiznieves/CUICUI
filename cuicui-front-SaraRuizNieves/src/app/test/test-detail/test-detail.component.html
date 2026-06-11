@@ -1,0 +1,207 @@
+<section class="home">
+  <div class="test-detail-shell">
+
+    <div class="test-detail-card" *ngIf="!isLoading && test; else loadingState">
+
+      <div class="test-detail-header">
+        <div class="test-detail-title-row">
+          <span class="test-detail-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M9 3h6"></path>
+              <path d="M10 3v5.5L5.5 17a3 3 0 0 0 2.6 4.5h7.8A3 3 0 0 0 18.5 17L14 8.5V3"></path>
+              <path d="M8 14h8"></path>
+            </svg>
+          </span>
+
+          <h2>Detalle de prueba</h2>
+        </div>
+      </div>
+
+      <div class="messages">
+        <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+
+      <div class="test-detail-main">
+        <div class="test-detail-form">
+          <div class="detail-grid">
+
+            <div class="detail-block">
+              <label for="petId">Cobaya</label>
+              <select id="petId" [(ngModel)]="test.petId" name="petId">
+                <option *ngFor="let pet of pets" [value]="pet.id">
+                  {{ pet.petName }}
+                </option>
+              </select>
+            </div>
+
+            <div class="detail-block">
+              <label for="name">Nombre de la prueba</label>
+              <input
+                id="name"
+                type="text"
+                [(ngModel)]="test.name"
+                name="name"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="type">Tipo de prueba</label>
+              <input
+                id="type"
+                type="text"
+                [(ngModel)]="test.type"
+                name="type"
+                placeholder="Ej. Radiografía, analítica..."
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="testDate">Fecha de la prueba</label>
+              <input
+                id="testDate"
+                type="date"
+                [(ngModel)]="test.testDate"
+                name="testDate"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="vetName">Veterinario/a</label>
+              <input
+                id="vetName"
+                type="text"
+                [(ngModel)]="test.vetName"
+                name="vetName"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="result">Resultado</label>
+              <input
+                id="result"
+                type="text"
+                [(ngModel)]="test.result"
+                name="result"
+              />
+            </div>
+
+            <div class="detail-block" *ngIf="test.filePath || test.fileName">
+              <label>Archivo</label>
+
+                <a
+                  class="test-file-link"
+                  [href]="getTestFileUrl()"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                <span class="file-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path>
+                    <path d="M14 3v5h5"></path>
+                    <path d="M9 13h6"></path>
+                    <path d="M9 17h4"></path>
+                  </svg>
+                </span>
+
+                <span>Ver archivo</span>
+                </a>
+            </div>
+
+            <div class="detail-block detail-block-full">
+              <label for="notes">Notas</label>
+              <textarea
+                id="notes"
+                rows="5"
+                [(ngModel)]="test.notes"
+                name="notes"
+              ></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <aside class="test-detail-side">
+          <div class="test-summary-card">
+            <div class="test-summary-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M9 3h6"></path>
+                <path d="M10 3v5.5L5.5 17a3 3 0 0 0 2.6 4.5h7.8A3 3 0 0 0 18.5 17L14 8.5V3"></path>
+                <path d="M8 14h8"></path>
+              </svg>
+            </div>
+
+            <h3>{{ test.name }}</h3>
+            <p>{{ test.petName || 'Cobaya' }}</p>
+
+            <div class="summary-data">
+              <span>Tipo</span>
+              <strong>{{ test.type || 'Sin tipo' }}</strong>
+            </div>
+
+            <div class="summary-data">
+              <span>Fecha</span>
+              <strong>{{ formatDateForView(test.testDate) }}</strong>
+            </div>
+
+            <div class="summary-data">
+              <span>Veterinario/a</span>
+              <strong>{{ test.vetName || 'Sin veterinario' }}</strong>
+            </div>
+
+            <div class="summary-data">
+              <span>Resultado</span>
+              <strong>{{ test.result || 'Sin resultado' }}</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="test-actions">
+        <button
+          type="button"
+          class="back-btn"
+          (click)="goBack()"
+          aria-label="Volver"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path
+              d="M15 18L9 12L15 6"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <span>Volver</span>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updateTest()"
+          [disabled]="isSaving"
+        >
+          {{ isSaving ? 'Guardando...' : 'Actualizar' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deleteTest()"
+          [disabled]="isSaving"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+    <ng-template #loadingState>
+      <div class="test-loading-card">
+        <p *ngIf="isLoading">Cargando prueba...</p>
+        <p *ngIf="!isLoading && errorMessage">{{ errorMessage }}</p>
+      </div>
+    </ng-template>
+
+  </div>
+</section>

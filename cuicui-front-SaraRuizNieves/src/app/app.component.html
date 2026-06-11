@@ -1,0 +1,35 @@
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<header class="header" *ngIf="!isLoginPage()">
+  <div class="header-left">
+    <img src="/logo2.png" class="logo" />
+  </div>
+
+  <nav class="nav-menu">
+    <a routerLink="/home" routerLinkActive="active" class="nav-link">Inicio</a>
+    <a routerLink="/pet" routerLinkActive="active" class="nav-link">Mis cobayas</a>
+    <a routerLink="/visit" routerLinkActive="active" class="nav-link">Visitas</a>
+    <a routerLink="/med" routerLinkActive="active" class="nav-link">Medicaciones</a>
+    <a routerLink="/test" routerLinkActive="active" class="nav-link">Pruebas diagnósticas</a>
+    <a routerLink="/guide" routerLinkActive="active" class="nav-link">Guías</a>
+  </nav>
+
+<div class="header-right">
+  <button class="btn-logout" (click)="logout()">Cerrar Sesión</button>
+
+  <div class="user-info">
+    <span class="greeting">¡Hola, {{ name || 'usuario' }}!</span>
+    <a routerLink="/user">
+      <img class="avatar" [src]="avatar || '/avatar/1.png'" />
+    </a>
+  </div>
+</div>
+</header>
+
+
+  <!-- CONTENIDO (tu router) -->
+  <div class="content">
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>

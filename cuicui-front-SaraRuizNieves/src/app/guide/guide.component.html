@@ -1,0 +1,190 @@
+<section class="home">
+  <div class="guide-shell">
+
+    <div class="guide-header">
+
+      <div class="guide-title-block">
+        <div class="guide-title-row">
+
+          <div class="guide-icon">
+
+            <svg viewBox="0 0 24 24" fill="none">
+              <path
+                d="M5 4.5C5 3.67 5.67 3 6.5 3H18C18.55 3 19 3.45 19 4V18.5C19 19.33 18.33 20 17.5 20H7C5.9 20 5 19.1 5 18V4.5Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+              />
+
+              <path
+                d="M7 6H16"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M7 10H16"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+
+              <path
+                d="M7 14H13"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+              />
+            </svg>
+
+          </div>
+
+          <h2>Guías</h2>
+        </div>
+
+        <p>
+          Recursos útiles sobre cuidados, alimentación y salud de tus cobayas
+        </p>
+      </div>
+
+    </div>
+
+<div class="guide-links-hero">
+
+  <div class="guide-links-left">
+
+    <button
+      class="guide-link-card vet"
+      (click)="openExternalLink('https://www.cobayasespana.es/recursos/veterinarios/')"
+    >
+
+      <div class="guide-link-icon">
+        <img src="/vet.svg" alt="Veterinarios exóticos" />
+      </div>
+
+      <div>
+        <h3>Buscar veterinarios de exóticos</h3>
+        <p>
+          Encuentra especialistas cerca de ti.
+        </p>
+      </div>
+
+        <span class="guide-link-arrow">
+
+        <svg viewBox="0 0 24 24" fill="none">
+            <path
+            d="M5 12H19"
+            stroke="currentColor"
+            stroke-width="2.8"
+            stroke-linecap="round"
+            />
+
+            <path
+            d="M13 6L19 12L13 18"
+            stroke="currentColor"
+            stroke-width="2.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            />
+        </svg>
+
+</span>
+
+    </button>
+
+    <button
+      class="guide-link-card adoption"
+      (click)="openExternalLink('https://www.cobayasespana.es/blog/donde-adoptar-cobayas-en-espana-e-hispanoamerica/#htoc-mucho-cuidado-los-cobayas-esconden-sus-enfermedades11111111')"
+    >
+
+      <div class="guide-link-icon">
+        <img src="/adopt.svg" alt="Adopción de cobayas" />
+      </div>
+
+      <div>
+        <h3>Adoptar cobayas</h3>
+        <p>
+          Descubre cobayas que buscan un hogar responsable.
+        </p>
+      </div>
+
+        <span class="guide-link-arrow">
+
+        <svg viewBox="0 0 24 24" fill="none">
+            <path
+            d="M5 12H19"
+            stroke="currentColor"
+            stroke-width="2.8"
+            stroke-linecap="round"
+            />
+
+            <path
+            d="M13 6L19 12L13 18"
+            stroke="currentColor"
+            stroke-width="2.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            />
+        </svg>
+
+        </span>
+
+    </button>
+
+  </div>
+
+</div>
+    <div class="guide-filters">
+
+      <button
+        type="button"
+        *ngFor="let category of categories"
+        class="guide-filter"
+        [class.active]="selectedCategory === category"
+        (click)="selectCategory(category)"
+      >
+        {{ category }}
+      </button>
+
+    </div>
+
+
+    <div class="guide-grid">
+
+            <article
+            class="guide-card"
+            *ngFor="let guide of filteredGuides"
+            (click)="openGuide(guide.url)"
+            >
+
+            <div class="guide-category">
+                {{ guide.category }}
+            </div>
+
+            <h3>
+                {{ guide.title }}
+            </h3>
+
+            <p>
+                {{ guide.description }}
+            </p>
+
+            <div class="guide-footer">
+
+                <span class="guide-source">
+                {{ guide.source }}
+                </span>
+
+                <span class="guide-arrow">
+                →
+                </span>
+
+            </div>
+
+            </article>
+
+    </div>
+
+  </div>
+</section>

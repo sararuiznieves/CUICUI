@@ -1,0 +1,24 @@
+
+/* Colores */
+:root {
+    --header-bg: #E1DDF1;
+    --sidebar-bg: #B8E3C1;
+    --body-bg: #F8F4EB;
+    --text-color: #333; 
+  }
+  
+  
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Clase personalizada para tooltips */
+.custom-tooltip {
+  background-color: #b8e3c1 ; 
+  color: #042a0d; 
+  border: 1px solid #155724; 
+  font-weight: bold;
+  padding: 8px 12px; 
+  border-radius: 4px;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

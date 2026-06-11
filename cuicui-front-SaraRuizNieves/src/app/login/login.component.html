@@ -1,0 +1,103 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  
+  <div class="card shadow-sm p-4">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <div class="login-logo">
+  <img src="/logo2.png" alt="CUICUI" />
+</div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <!-- Campo de nombre de usuario (email) -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Usuario</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          formControlName="email"
+          placeholder="Correo electrónico"
+          required
+        />
+      </div>
+
+      <!-- Campo de contraseña -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          formControlName="password"
+          required
+        />
+      </div>
+
+      <!-- Confirmar contraseña -->
+<div class="mb-3" *ngIf="isCreatingUser">
+  <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+  <input
+    type="password"
+    id="confirmPassword"
+    class="form-control"
+    formControlName="confirmPassword"
+    placeholder="Repite la contraseña"
+  />
+
+  <!-- Error si no coinciden -->
+  <div class="text-danger mt-1" *ngIf="loginForm.errors?.['passwordMismatch'] && loginForm.get('confirmPassword')?.touched">
+    Las contraseñas no coinciden
+  </div>
+</div>
+
+            <!-- Campo de nombre -->
+      <div class="mb-3" *ngIf="isCreatingUser">
+        <label for="name" class="form-label">Nombre</label>
+        <input
+          type="text"
+          id="name"
+          class="form-control"
+          formControlName="name"
+          placeholder="Escribe tu nombre"
+          required
+        />
+      </div>
+
+      <!-- Botón para crear el nuevo usuario (visible solo si se está creando usuario) -->
+      <button
+        class="btn btn-success w-100 mb-2"
+        *ngIf="isCreatingUser"
+        (click)="onCreateUser()"
+        [disabled]="loginForm.get('email')?.invalid || loginForm.invalid"
+        type="button"
+      >
+        Crear Usuario
+      </button>
+
+      <!-- Botón de Login -->
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        *ngIf="!isCreatingUser"
+      >
+        Login
+      </button>
+
+      <!-- Botón para "Crear Usuario" -->
+      <button
+        class="btn btn-link w-100 mt-2"
+        type="button"
+        (click)="toggleCreateUser()"
+      >
+        {{ isCreatingUser ? 'Cancelar' : 'Crear Usuario' }}
+      </button>
+    </form>
+
+    <!-- Mensaje de error -->
+    <div id="response-message" class="mt-3" *ngIf="errorMessage">
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    </div>
+  </div>
+</div>

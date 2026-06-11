@@ -1,0 +1,238 @@
+<section class="home">
+  <div class="med-container">
+    <div class="med-card">
+
+      <div class="med-header">
+        <div class="title-block">
+          <div class="title-with-icon">
+            <span class="med-title-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M10 21h4"></path>
+                <path d="M12 17v4"></path>
+                <rect x="7" y="3" width="10" height="14" rx="5"></rect>
+                <path d="M7.5 10h9"></path>
+              </svg>
+            </span>
+
+            <h2>Medicaciones</h2>
+          </div>
+
+          <p class="med-subtitle">
+            Controla tratamientos, dosis y pautas de tus cobayas
+          </p>
+        </div>
+      </div>
+
+      <div class="linea-divisoria"></div>
+
+      <div class="med-grid">
+        <button
+          type="button"
+          class="med-square add-med-card"
+          (click)="openMedModal()"
+        >
+          <div class="add-circle">+</div>
+          <span class="add-title">Añadir medicación</span>
+        </button>
+
+        <article
+          class="med-square med-item-card"
+            *ngFor="let med of activeMeds"
+            (click)="openMedDetail(med.id)"
+        >
+          <div class="med-pill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="5" y="4" width="14" height="16" rx="7"></rect>
+              <path d="M5.8 12h12.4"></path>
+            </svg>
+          </div>
+
+          <div class="med-info">
+            <h3>{{ med.name }}</h3>
+            <p class="med-pet">{{ med.petName }}</p>
+
+            <div class="med-meta">
+              <span>{{ med.dose }}</span>
+              <span>{{ med.frequency }}</span>
+            </div>
+
+            <p class="med-date">
+            Hasta {{ med.endDate ? formatDateForView(med.endDate) : 'Sin fecha definida' }}
+          </p>
+
+          </div>
+
+        </article>
+      </div>
+
+      <div class="med-history" *ngIf="inactiveMeds.length > 0">
+        <h3>Tratamientos finalizados</h3>
+
+        <div class="med-history-list">
+          <article
+            class="med-square med-item-card"
+            *ngFor="let med of inactiveMeds"
+            (click)="openMedDetail(med.id)"
+          >
+            <div class="med-pill-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="5" y="4" width="14" height="16" rx="7"></rect>
+                <path d="M5.8 12h12.4"></path>
+              </svg>
+            </div>
+
+            <div class="med-info">
+              <h3>{{ med.name }}</h3>
+              <p class="med-pet">{{ med.petName }}</p>
+
+              <div class="med-meta">
+                <span>{{ med.dose }}</span>
+                <span>{{ med.frequency }}</span>
+              </div>
+
+              <p class="med-date">
+                Hasta {{ med.endDate ? formatDateForView(med.endDate) : 'Sin fecha definida' }}
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+<div class="med-modal" *ngIf="showMedModal">
+  <div class="med-modal-backdrop" (click)="closeMedModal()"></div>
+
+  <div class="med-modal-content">
+    <button
+      type="button"
+      class="med-modal-close"
+      (click)="closeMedModal()"
+      aria-label="Cerrar formulario"
+    >
+      ×
+    </button>
+
+    <h3>Nueva medicación</h3>
+
+    <form (ngSubmit)="createMed()">
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label for="petId">Cobaya</label>
+
+          <select
+            id="petId"
+            [(ngModel)]="newMed.petId"
+            name="petId"
+            required
+          >
+            <option value="">Selecciona una cobaya</option>
+
+            <option *ngFor="let pet of pets" [value]="pet.id">
+              {{ pet.petName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Medicamento</label>
+
+          <input
+            id="name"
+            type="text"
+            [(ngModel)]="newMed.name"
+            name="name"
+            placeholder="Ej. Vitamina C"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="dose">Dosis</label>
+
+          <input
+            id="dose"
+            type="text"
+            [(ngModel)]="newMed.dose"
+            name="dose"
+            placeholder="Ej. 0.5 ml"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="frequency">Frecuencia</label>
+
+          <input
+            id="frequency"
+            type="text"
+            [(ngModel)]="newMed.frequency"
+            name="frequency"
+            placeholder="Ej. Cada 24 horas"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="startDate">Fecha de inicio</label>
+
+          <input
+            id="startDate"
+            type="date"
+            [(ngModel)]="newMed.startDate"
+            name="startDate"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="endDate">Fecha de fin</label>
+
+          <input
+            id="endDate"
+            type="date"
+            [(ngModel)]="newMed.endDate"
+            name="endDate"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="vetName">Veterinario/a</label>
+
+          <input
+            id="vetName"
+            type="text"
+            [(ngModel)]="newMed.vetName"
+            name="vetName"
+            placeholder="Ej. Dra. García"
+          />
+        </div>
+
+        <div class="form-group form-group-full">
+          <label for="notes">Notas</label>
+
+          <textarea
+            id="notes"
+            rows="2"
+            [(ngModel)]="newMed.notes"
+            name="notes"
+            placeholder="Indicaciones, observaciones..."
+          ></textarea>
+        </div>
+
+      </div>
+
+      <button
+        type="submit"
+        class="btn-guardar"
+        [disabled]="isSaving"
+      >
+        {{ isSaving ? 'Guardando...' : 'Añadir medicación' }}
+      </button>
+
+    </form>
+  </div>
+</div>
+
+    </div>
+  </div>
+</section>

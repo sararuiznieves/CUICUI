@@ -1,0 +1,210 @@
+<section class="home">
+  <div class="test-shell">
+
+    <div class="test-header">
+      <div class="test-title-block">
+        <div class="test-title-row">
+          <span class="test-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M9 3h6"></path>
+              <path d="M10 3v5.5L5.5 17a3 3 0 0 0 2.6 4.5h7.8A3 3 0 0 0 18.5 17L14 8.5V3"></path>
+              <path d="M8 14h8"></path>
+            </svg>
+          </span>
+
+          <h2>Pruebas diagnósticas</h2>
+        </div>
+
+        <p>Gestiona pruebas veterinarias, resultados y revisiones de tus cobayas</p>
+      </div>
+
+      <button type="button" class="btn-add-test" (click)="openTestModal()">
+        <span>＋</span>
+        Añadir prueba
+      </button>
+    </div>
+
+    <div class="tests-card">
+      <div class="card-title-row">
+        <h3>Registro de pruebas veterinarias</h3>
+        <span class="test-count">{{ tests.length }} registradas</span>
+      </div>
+
+      <div class="tests-list" *ngIf="tests.length > 0; else noTests">
+        <article
+        class="test-item"
+        *ngFor="let test of tests"
+        [style.background-image]="'url(' + getPetImage(test) + ')'"
+        >
+
+            <div class="test-main">
+
+                <div class="test-name">
+                {{ test.name }}
+                </div>
+
+                <div class="test-pet">
+                {{ test.petName || 'Cobaya' }}
+                </div>
+
+                <div class="test-notes" *ngIf="test.notes">
+                {{ test.notes }}
+                </div>
+
+            </div>
+
+            <div class="test-data-box">
+
+                <div class="test-data-row">
+                <strong>Tipo:</strong>
+                <span>{{ test.type || 'Sin tipo' }}</span>
+                </div>
+
+                <div class="test-data-row">
+                <strong>Fecha:</strong>
+                <span>
+                    {{ test.testDate ? formatDateForView(test.testDate) : 'Sin fecha definida' }}
+                </span>
+                </div>
+
+                <div class="test-data-row">
+                <strong>Veterinario/a:</strong>
+                <span>{{ test.vetName || 'Sin veterinario' }}</span>
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                class="test-detail-btn"
+                (click)="openTestDetail(test.id)"
+            >
+                Ver detalle
+            </button>
+
+            </article>
+      </div>
+
+      <ng-template #noTests>
+        <div class="empty-tests">
+          No hay pruebas registradas todavía
+        </div>
+      </ng-template>
+    </div>
+
+    <div class="test-modal" *ngIf="showTestModal">
+      <div class="test-modal-backdrop" (click)="closeTestModal()"></div>
+
+      <div class="test-modal-content">
+        <button
+          type="button"
+          class="test-modal-close"
+          (click)="closeTestModal()"
+          aria-label="Cerrar"
+        >
+          ×
+        </button>
+
+        <h3>Nueva prueba</h3>
+
+        <div class="test-form-grid">
+          <div class="form-group">
+            <label for="petId">Cobaya</label>
+            <select id="petId" [(ngModel)]="newTest.petId" name="petId">
+              <option value="">Selecciona una cobaya</option>
+              <option *ngFor="let pet of pets" [value]="pet.id">
+                {{ pet.petName }}
+              </option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Nombre de la prueba</label>
+            <input
+              id="name"
+              type="text"
+              [(ngModel)]="newTest.name"
+              name="name"
+              placeholder="Ej. Revisión dental"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="type">Tipo de prueba</label>
+            <input
+              id="type"
+              type="text"
+              [(ngModel)]="newTest.type"
+              name="type"
+              placeholder="Ej. Radiografía, analítica..."
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="testDate">Fecha de la prueba</label>
+            <input
+              id="testDate"
+              type="date"
+              [(ngModel)]="newTest.testDate"
+              name="testDate"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="vetName">Veterinario/a</label>
+            <input
+              id="vetName"
+              type="text"
+              [(ngModel)]="newTest.vetName"
+              name="vetName"
+              placeholder="Ej. Dra. García"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="result">Resultado</label>
+            <input
+              id="result"
+              type="text"
+              [(ngModel)]="newTest.result"
+              name="result"
+              placeholder="Ej. Sin anomalías"
+            />
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="file">Archivo</label>
+            <input
+              id="file"
+              type="file"
+              accept=".pdf,image/*"
+              (change)="onFileSelect($event)"
+            />
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="notes">Notas</label>
+            <textarea
+              id="notes"
+              [(ngModel)]="newTest.notes"
+              name="notes"
+              rows="2"
+              placeholder="Observaciones, indicaciones..."
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="test-form-actions">
+          <button type="button" class="btn-secondary" (click)="closeTestModal()">
+            Cancelar
+          </button>
+
+          <button type="button" class="btn-primary" (click)="createTest()">
+            {{ isSaving ? 'Guardando...' : 'Guardar prueba' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

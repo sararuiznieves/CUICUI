@@ -1,0 +1,159 @@
+<section class="home">
+  <div class="pets-container">
+    <div class="pets-card">
+
+<div class="pets-header">
+  <div class="title-block">
+    
+    <div class="title-with-icon">
+      <img src="/huella_verde.png" alt="Huella" class="paw-icon" />
+      <h2>Mis cobayas</h2>
+    </div>
+
+    <p class="pets-subtitle">
+      Gestiona la información de tus compañeras
+    </p>
+
+  </div>
+</div>
+
+      <div class="linea-divisoria">
+      </div>
+
+      <div class="pets-grid">
+        <!-- Tarjeta añadir mascota -->
+        <button
+          type="button"
+          class="pet-square add-pet-card"
+          (click)="toggleCollapse()"
+        >
+          <div class="add-circle">+</div>
+          <span class="add-title">
+            {{ isCollapsed ? 'Añadir' : 'Cerrar formulario' }}
+          </span>
+        </button>
+
+        <!-- Tarjetas de mascotas -->
+<a
+  class="pet-square pet-photo-card"
+  *ngFor="let mascota of mascotas"
+  [routerLink]="['/pet/pet-detail', mascota.id]"
+  [class.deceased]="mascota.dateDisable"
+  [ngStyle]="getPetCardStyle(mascota)"
+>
+  <div class="pet-overlay"></div>
+
+  <div class="pet-name">{{ mascota.petName }}</div>
+</a>
+      </div>
+
+      <!-- Formulario -->
+<div class="pet-modal" *ngIf="!isCollapsed">
+  <div class="pet-modal-backdrop" (click)="toggleCollapse()"></div>
+
+  <div class="pet-modal-content">
+    <button
+      type="button"
+      class="pet-modal-close"
+      (click)="toggleCollapse()"
+      aria-label="Cerrar formulario"
+    >
+      ×
+    </button>
+
+    <form [formGroup]="createPetForm" (ngSubmit)="createPet()">
+      <h3>Nueva mascota</h3>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="petName">Nombre</label>
+          <input
+            type="text"
+            id="petName"
+            formControlName="petName"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="breed">Raza</label>
+          <input
+            type="text"
+            id="breed"
+            formControlName="breed"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="dateBirth">Fecha de nacimiento</label>
+          <input
+            type="date"
+            id="dateBirth"
+            formControlName="dateBirth"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Género</label>
+          <div class="gender-options">
+            <button
+              type="button"
+              class="gender-btn"
+              [class.active]="createPetForm.get('gender')?.value === 'Macho'"
+              (click)="setGender('Macho')"
+            >
+              <span class="gender-icon">♂</span>
+              <span>Macho</span>
+            </button>
+
+            <button
+              type="button"
+              class="gender-btn"
+              [class.active]="createPetForm.get('gender')?.value === 'Hembra'"
+              (click)="setGender('Hembra')"
+            >
+              <span class="gender-icon">♀</span>
+              <span>Hembra</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dateAdoption">Fecha de adopción</label>
+          <input
+            type="date"
+            id="dateAdoption"
+            formControlName="dateAdoption"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Foto</label>
+
+          <label class="file-upload">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onImageSelect($event)"
+              hidden
+            />
+            <span class="upload-icon">📷</span>
+            <span>Subir imagen</span>
+          </label>
+        </div>
+      </div>
+
+<button type="submit" class="btn-guardar" [disabled]="isSubmitting">
+  {{ isSubmitting ? 'Guardando...' : 'Añadir' }}
+</button>
+
+
+      <p class="form-error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+
+
+    </form>
+  </div>
+</div>
+    </div>
+  </div>
+</section>

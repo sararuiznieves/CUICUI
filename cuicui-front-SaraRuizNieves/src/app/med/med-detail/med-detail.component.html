@@ -1,0 +1,205 @@
+<section class="home">
+  <div class="med-detail-shell">
+
+    <div class="med-detail-card" *ngIf="!isLoading && med; else loadingState">
+
+      <div class="med-detail-header">
+        <div class="med-detail-title-row">
+          <span class="med-detail-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="5" y="4" width="14" height="16" rx="7"></rect>
+              <path d="M5.8 12h12.4"></path>
+            </svg>
+          </span>
+
+          <h2>Detalle de medicación</h2>
+        </div>
+
+      </div>
+
+      <div class="messages">
+        <p class="success-message" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+      <div class="med-detail-main">
+        <div class="med-detail-form">
+          <div class="detail-grid">
+
+            <div class="detail-block">
+              <label for="petId">Cobaya</label>
+              <select id="petId" [(ngModel)]="med.petId" name="petId">
+                <option *ngFor="let pet of pets" [value]="pet.id">
+                  {{ pet.petName }}
+                </option>
+              </select>
+            </div>
+
+            <div class="detail-block">
+              <label for="name">Medicamento</label>
+              <input
+                id="name"
+                type="text"
+                [(ngModel)]="med.name"
+                name="name"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="dose">Dosis</label>
+              <input
+                id="dose"
+                type="text"
+                [(ngModel)]="med.dose"
+                name="dose"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="frequency">Frecuencia</label>
+              <input
+                id="frequency"
+                type="text"
+                [(ngModel)]="med.frequency"
+                name="frequency"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="startDate">Fecha de inicio</label>
+              <input
+                id="startDate"
+                type="date"
+                [(ngModel)]="med.startDate"
+                name="startDate"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="endDate">Fecha de fin</label>
+              <input
+                id="endDate"
+                type="date"
+                [(ngModel)]="med.endDate"
+                name="endDate"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label for="vetName">Veterinario/a</label>
+              <input
+                id="vetName"
+                type="text"
+                [(ngModel)]="med.vetName"
+                name="vetName"
+              />
+            </div>
+
+            <div class="detail-block">
+              <label>Estado</label>
+              <div
+                class="detail-readonly"
+                [class.inactive]="!med.active"
+              >
+                {{ med.active ? 'Activa' : 'Finalizada' }}
+              </div>
+            </div>
+
+            <div class="detail-block detail-block-full">
+              <label for="notes">Notas</label>
+              <textarea
+                id="notes"
+                rows="5"
+                [(ngModel)]="med.notes"
+                name="notes"
+              ></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <aside class="med-detail-side">
+          <div class="med-summary-card">
+            <div class="med-summary-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <rect x="5" y="4" width="14" height="16" rx="7"></rect>
+                <path d="M5.8 12h12.4"></path>
+              </svg>
+            </div>
+
+            <h3>{{ med.name }}</h3>
+            <p>{{ med.petName }}</p>
+
+            <div class="summary-data">
+              <span>Dosis</span>
+              <strong>{{ med.dose }}</strong>
+            </div>
+
+            <div class="summary-data">
+              <span>Frecuencia</span>
+              <strong>{{ med.frequency }}</strong>
+            </div>
+
+            <div class="summary-data">
+              <span>Fin</span>
+              <strong>{{ formatDateForView(med.endDate) }}</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="med-actions">
+        <button
+          type="button"
+          class="back-btn"
+          (click)="goBack()"
+          aria-label="Volver"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path
+              d="M15 18L9 12L15 6"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <span>Volver</span>
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updateMed()"
+          [disabled]="isSaving"
+        >
+          {{ isSaving ? 'Guardando...' : 'Actualizar' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="toggleActive()"
+        >
+          {{ med.active ? 'Finalizar' : 'Reactivar' }}
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="deleteMed()"
+          [disabled]="isSaving"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+
+    <ng-template #loadingState>
+      <div class="med-loading-card">
+        <p *ngIf="isLoading">Cargando medicación...</p>
+        <p *ngIf="!isLoading && errorMessage">{{ errorMessage }}</p>
+      </div>
+    </ng-template>
+
+  </div>
+</section>

@@ -1,0 +1,246 @@
+.home {
+  position: relative;
+  min-height: 700px;
+  margin: 20px;
+  border-radius: 24px;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+
+  background: url('/background.png');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* 👈 efecto parallax */
+
+}
+
+/* Decoración blur */
+.home::after {
+  content: "";
+  position: absolute;
+  right: -100px;
+  top: -50px;
+  width: 400px;
+  height: 400px;
+  background: rgba(76, 175, 80, 0.2);
+  filter: blur(100px);
+  z-index: 0;
+}
+
+.user-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.user-card {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 12px 30px rgba(46, 125, 50, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-section {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #4caf50;
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #4caf50;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.avatar-wrapper:hover .edit-icon {
+  transform: scale(1.08);
+}
+
+.avatar-help {
+  margin-top: 10px;
+  color: #666;
+  font-size: 14px;
+}
+
+.avatar-selector {
+  display: grid;
+  grid-template-columns: repeat(4, 110px); /* tamaño real de tus avatares */
+  justify-content: center; /* 👈 centra el bloque */
+  gap:10px;
+  padding:10px;
+  margin-top: 15px;
+  
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.avatar-option {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit:fill;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.avatar-option:hover {
+  transform: scale(1.08);
+  border-color: #4caf50;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d2d2d;
+  text-align: center;
+}
+
+.password-section {
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid #ececec;
+}
+
+.password-form {
+  margin-top: 18px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  text-align: left;
+  padding: 0 4px; /* 👈 separa del borde */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-control {
+  width: 100%;
+  box-sizing: border-box; /* 👈 CLAVE */
+  border: 1px solid #d7dce2;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.14);
+}
+
+.btn-save,
+.btn-password {
+  width: 50%;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: 600;
+  cursor: pointer;
+    background: #4caf50;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 60%;
+  margin: 0 auto; /* 👈 centra */
+  display: block; /* 👈 necesario */
+}
+
+
+.btn-save:hover,
+.btn-password:hover {
+  background: #43a047;
+  transform: translateY(-1px);
+}
+
+
+.error {
+  display: block;
+  margin-top: 6px;
+  color: #d32f2f;
+  font-size: 13px;
+}
+
+.message {
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.error-box {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.delete-section {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.btn-delete {
+  background: transparent;
+  border: 1.5px solid #e53935;
+  color: #e53935;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-delete:hover {
+  background: #e53935;
+  color: white;
+  transform: translateY(-1px);
+}

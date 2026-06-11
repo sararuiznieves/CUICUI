@@ -1,0 +1,177 @@
+
+
+/* Asegura que el contenido esté encima */
+header,
+.content {
+  position: relative;
+  z-index: 1;
+}
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 20px 20px 0;
+  padding: 14px 22px;
+
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+
+  box-shadow: 0 10px 28px rgba(46, 125, 50, 0.08);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo {
+  width: 120px;
+}
+
+.brand {
+  font-size: 22px;
+  font-weight: bold;
+  color: #2e7d32;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: #555;
+}
+
+.nav-menu a:hover {
+  color: #4caf50;
+}
+
+.nav-link {
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #2e4335;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 0%;
+  height: 2px;
+  background: #35b45c;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  background: rgba(53, 180, 92, 0.10);
+  color: #1b5e20;
+  transform: translateY(-1px);
+}
+
+.nav-link:hover::after {
+  width: 60%;
+}
+
+.nav-link.active {
+  background: rgba(53, 180, 92, 0.15);
+  color: #17863b;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-right .btn-logout {
+  background: #4caf50;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  cursor: pointer;
+
+  /* transición suave de color y transform */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.header-right .btn-logout:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  
+}
+
+/* Contenedor derecho del header */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;  /* espacio entre botón y usuario */
+}
+
+/* Botón cerrar sesión */
+.header-right .btn-logout {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.header-right .btn-logout:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+}
+
+/* Información del usuario */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Saludo */
+.user-info .greeting {
+  font-size: 16px;
+  font-weight: 500;
+  color:#2e7d32;
+}
+
+/* Avatar */
+.user-info .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #4caf50; /* borde decorativo */
+  transition: transform 0.2s ease;
+}
+
+.user-info .avatar:hover {
+  transform: scale(1.1);
+}
